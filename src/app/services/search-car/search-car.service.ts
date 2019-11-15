@@ -11,7 +11,7 @@ import { CarYearModelRequestFipe } from '../../interface/iCarYearModelReturn';
 
 export class SearchCarService {
 
-  baseURLFipe = 'http://veiculos.fipe.org.br/api/veiculos/';
+  baseURLFipe = 'https://veiculos.fipe.org.br/api/veiculos/';
 
   constructor(private http: HttpClient) { }
 
