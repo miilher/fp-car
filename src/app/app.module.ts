@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpSetHeaders } from './interceptors/http-interceptor';
 
 import { AppComponent } from './app.component';
 import { PagesComponent } from './pages/pages.component';
@@ -29,7 +30,9 @@ import { MzSelectModule } from 'ngx-materialize';
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpSetHeaders, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
