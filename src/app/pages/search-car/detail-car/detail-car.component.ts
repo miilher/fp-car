@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { CarAllDataReturnFipe } from '../../../interface/iCarAllDataReteurn';
 
 @Component({
   selector: 'app-detail-car',
@@ -6,9 +7,9 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./detail-car.component.scss']
 })
 export class DetailCarComponent implements OnInit {
-  
+
   @Input()
-  adress;
+  veiculo: CarAllDataReturnFipe;
 
   constructor() { }
 

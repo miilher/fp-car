@@ -1,51 +1,40 @@
 <app-loader *ngIf="loader === true"></app-loader>
-<div class="form">
-  <div class=" flex">
-    <form [formGroup]="seachCarForm" novalidate>
-      <!-- <mz-select-container *ngIf="dataFipeReference !== null">
-        <select mz-select 
-          id="dateReference" 
-          label="Selecione mes e ano de Referência"
-          placeholder="Selecionar"
-          formControlName="dateReference"
-          [(ngModel)]="referenceDate"
-          (ngModelChange)="selectAllTypeEventsFipe($event, 0)">
-          <option *ngFor="let fipeValues of dataFipeReference"  [ngValue]="fipeValues.Codigo" class="left circle">
-            {{ fipeValues.Mes }}</option>
-        </select> -->
-        <!-- <span *ngIf="error !== null" class="invalid" [attr.data-error]="error">{{ error }}</span> -->
-      <!-- </mz-select-container> -->
 
-      <mz-select-container >
-        <select mz-select 
-          id="brand" 
-          label="Selecione a Marca"
-          placeholder="Selecionar"
-          formControlName="brand"
-          [(ngModel)]="carBrand"
-          (ngModelChange)="selectAllTypeEventsFipe($event, 0)">
-          <option *ngFor="let fipeBrand of dataFipeBrand"  [ngValue]="fipeBrand.codigo" class="left circle">
-            {{ fipeBrand.nome }}</option>
-        </select>
-        <!-- <span *ngIf="error !== null" class="invalid" [attr.data-error]="error">{{ error }}</span> -->
-      </mz-select-container>
-
-      <mz-select-container >
-        <select mz-select 
-          id="model" 
-          label="Selecione o modelo"
-          placeholder="Selecionar"
-          formControlName="model"
-          [(ngModel)]="model"
-          (ngModelChange)="selectAllTypeEventsFipe($event, 1)">
-          <option *ngFor="let model of dataModel"  [ngValue]="model.codigo" class="left circle">
-            {{ model.nome }}</option>
-        </select>
-        <!-- <span *ngIf="error !== null" class="invalid" [attr.data-error]="error">{{ error }}</span> -->
-      </mz-select-container>
-
-
-    </form>
+<form class="form" novalidate>
+  <div>
+    <mat-form-field>
+      <mat-label>Selecione a Marca</mat-label>
+      <mat-select [(ngModel)]="carBrand" id="brand" name="brand"
+        (selectionChange)="selectAllTypeEventsFipe($event, 0)" disableRipple>
+        <mat-option *ngFor="let fipeBrand of dataFipeBrand" [value]="fipeBrand.codigo">
+          {{fipeBrand.nome}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
-</div>
-<app-detail-car ></app-detail-car>
+  <div>
+    <mat-form-field>
+      <mat-label>Selecione o Modelo</mat-label>
+      <mat-select [(ngModel)]="model"  id="model" name="model"
+        (selectionChange)="selectAllTypeEventsFipe($event, 1)" [disabled]="isDisable(carBrand)" disableRipple>
+        <mat-option *ngFor="let model of refineLoadOnlyModels" [value]="model.codigo">
+          {{model.nome}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <mat-label>Selecione o Ano</mat-label>
+      <mat-select [(ngModel)]="year"  id="year" name="year"
+        (selectionChange)="selectAllTypeEventsFipe($event, 2)" [disabled]="isDisable(model)" disableRipple>
+        <mat-option *ngFor="let year of dataYear" [value]="year.codigo">
+          {{year.nome}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+</form>
+<app-detail-car *ngIf="allDataCar !== null" [veiculo]="allDataCar"></app-detail-car>

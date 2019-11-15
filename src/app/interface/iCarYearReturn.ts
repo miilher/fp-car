@@ -1,4 +1,4 @@
-export interface CarBrandReturnFipe {
+export interface CarYearRequestFipe {
     nome: string;
     codigo: string;
 }

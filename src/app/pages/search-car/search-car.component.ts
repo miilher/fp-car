@@ -1,8 +1,11 @@
 import { Component, OnInit, Renderer } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SearchCarService } from '../../services/search-car/search-car.service';
-import { CarDateReferenceFipeReturn } from '../../interface/iCarDateReferenceReturn';
 import { CarBrandReturnFipe } from '../../interface/iCarBrandsReturn';
+import { CarModelReturnFipe, CarOnlyModelReturnFipe } from '../../interface/iCarModelReturn';
+import { CarYearRequestFipe } from '../../interface/iCarYearReturn';
+import { CarAllDataReturnFipe } from '../../interface/iCarAllDataReteurn';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { TypeSearch } from '../../enum/type-search';
 
@@ -14,119 +17,131 @@ import { TypeSearch } from '../../enum/type-search';
 export class SearchCarComponent implements OnInit {
 
   loader = false;
-  countNumber = 0;
-  user = {
-  //  dateReference: null,
-    brand: null,
-    model: null
-  };
-
   referenceDate = '';
   carBrand = '';
   model = '';
+  year = '';
   seachCarForm: FormGroup;
 
-  dataFipeReference: CarDateReferenceFipeReturn = null;
-  dataFipeBrand: CarBrandReturnFipe = null;
-  dataModel: any = null;
+  dataFipeBrand: CarBrandReturnFipe[] = null;
+  dataModel: CarModelReturnFipe = null;
+  refineLoadOnlyModels: any;
+  dataYear: CarYearRequestFipe[] = null;
+  allDataCar: CarAllDataReturnFipe = null;
 
   constructor(private searchCarService: SearchCarService,
-              private formBuilder: FormBuilder) { }
+              private formBuilder: FormBuilder,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.buildForm();
     this.getBrands();
+  }
 
+  isDisable(modelInput) {
+    if (modelInput === '') {
+      return 'disabled';
+    } else {
+      return;
+    }
+  }
+
+  openSnackBarError(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 
   selectAllTypeEventsFipe(event, typeSearch: any) {
-    console.log('id => ', typeSearch);
-    if (event !== '') {
+    if (event.value !== '') {
       switch (typeSearch) {
         case TypeSearch.brand: {
-          //this.getBrands();
-          this.getModel(event);
+          this.getModel(event.value);
           break;
         }
         case TypeSearch.model: {
-          this.getModel(event);
-          //statements;
+          this.getYear(this.carBrand, event.value);
+          break;
+        }
+        case TypeSearch.year: {
+          this.getAllDataCar(this.carBrand, this.model, event.value);
           break;
         }
         default: {
-          //statements; 
           break;
         }
-    }
-
-    }
-    console.log(event);
-  }
-
-  getDateReference() {
-    this.searchCarService.getReferenceDateFipe().subscribe(
-      response => {
-        this.dataFipeReference = response;
-
-      }, error => {
-        console.log(error);
       }
-    );
+
+    }
   }
+
 
 
   getBrands() {
-    this.searchCarService.postOfListCarBrandsFipe().subscribe(
+    this.loader = true;
+    this.searchCarService.getCarBrandsFipe().subscribe(
       response => {
         this.dataFipeBrand = response;
-
+        this.loader = false;
       }, error => {
+        this.loader = false;
+        this.openSnackBarError('Não Foi Possivel Carregar as Marcas', null);
         console.log(error);
       }
     );
   }
 
   getModel(idBrand) {
-    this.searchCarService.postOfListCarModelsFipe(idBrand).subscribe(
+    this.loader = true;
+    this.searchCarService.getCarModelFipe(idBrand).subscribe(
       response => {
-        this.dataModel = response.modelos;
+        this.dataModel = response;
+        this.refineLoadOnlyModels = this.dataModel.modelos;
+        this.model = '';
+        this.year = '';
+        this.loader = false;
 
       }, error => {
+        this.carBrand = '';
+        this.model = '';
+        this.year = '';
+        this.loader = false;
+        this.openSnackBarError('Não Foi Possivel Carregar os Modelos', null);
         console.log(error);
       }
     );
   }
-  
 
-  buildForm() {
-    this.seachCarForm = this.formBuilder.group({
-     // dateReference: [this.user.dateReference],
-      brand: [this.user.brand],
-      model: [this.user.model]
-    });
+  getYear(idBrand, idModel) {
+    this.loader = true;
+    this.searchCarService.getCarYearFipe(idBrand, idModel).subscribe(
+      response => {
+        this.dataYear = response;
+        this.loader = false;
+
+      }, error => {
+        this.year = '';
+        this.loader = false;
+        this.openSnackBarError('Não Foi Possivel Carregar os Anos', null);
+        console.log(error);
+      }
+    );
   }
 
-
-
-
-
-  getAdressPerZipCode(zipCode) {
+  getAllDataCar(idBrand, idModel, idYear) {
     this.loader = true;
-    // this.searchService.getAdressPerZipCode(zipCode).subscribe(
-    //   response => {
-    //     if (response['erro']) {
-    //       this.error = 'Cep Inválido';
-    //       this.adress = null;
-    //     } else {
-    //       this.adress = response;
-    //     }
-    //     this.loader = false;
-
-    //   }, error => {
-    //     this.loader = false;
-    //     this.error = error.mensagem;
-    //   }
-    // );
+    this.searchCarService.getCarDataAllFipe(idBrand, idModel, idYear).subscribe(
+      response => {
+        this.allDataCar = response;
+        this.loader = false;
+      }, error => {
+        this.carBrand = '';
+        this.model = '';
+        this.year = '';
+        this.loader = false;
+        this.openSnackBarError('Não Foi Possivel Carregar a ficha do Carro', null);
+        console.log(error);
+      }
+    );
   }
 
 }

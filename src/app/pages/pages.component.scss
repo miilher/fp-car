@@ -1,4 +1,4 @@
-$backgroundGradientColor:linear-gradient(to right, #DBD5A4, #649173);
+$backgroundGradientColor:linear-gradient(to right, #71b280, #135058);
 $backgroundColor:#649173;
 
 section{
@@ -11,12 +11,12 @@ section{
     app-search-car{
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-evenly;
         height: 100%;
     }
 }
 
-@media (max-width: 700px) { 
+@media (max-width: 800px) { 
     section{
         background: $backgroundColor;  /* fallback for old browsers */
         background: $backgroundGradientColor;
@@ -24,11 +24,12 @@ section{
         width: 100%;
         height: 100%;
         overflow: hidden;
-        app-search-zip{
+        app-search-car{
             display: grid;
             align-items: center;
-            justify-content: center;
             height: 100%;
+            width: 90%;
+            margin: 0 auto;
         }
     }
 }
