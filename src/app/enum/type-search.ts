@@ -1,4 +1,4 @@
 export enum TypeSearch {
-    date = 0,
-    brand = 1,
+    brand = 0,
+    model = 1
 }

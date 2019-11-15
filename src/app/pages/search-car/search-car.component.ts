@@ -16,23 +16,26 @@ export class SearchCarComponent implements OnInit {
   loader = false;
   countNumber = 0;
   user = {
-    dateReference: null,
-    brand: null
+  //  dateReference: null,
+    brand: null,
+    model: null
   };
 
   referenceDate = '';
   carBrand = '';
+  model = '';
   seachCarForm: FormGroup;
 
   dataFipeReference: CarDateReferenceFipeReturn = null;
   dataFipeBrand: CarBrandReturnFipe = null;
+  dataModel: any = null;
 
   constructor(private searchCarService: SearchCarService,
               private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.buildForm();
-    this.getDateReference();
+    this.getBrands();
 
   }
 
@@ -40,14 +43,16 @@ export class SearchCarComponent implements OnInit {
     console.log('id => ', typeSearch);
     if (event !== '') {
       switch (typeSearch) {
-        case TypeSearch.date: {
-          this.getBrands({codigoTabelaReferencia: event, codigoTipoVeiculo: 1});
+        case TypeSearch.brand: {
+          //this.getBrands();
+          this.getModel(event);
           break;
         }
-        // case constant_expression2: {
-        //   //statements;
-        //   break;
-        // }
+        case TypeSearch.model: {
+          this.getModel(event);
+          //statements;
+          break;
+        }
         default: {
           //statements; 
           break;
@@ -70,8 +75,8 @@ export class SearchCarComponent implements OnInit {
   }
 
 
-  getBrands(idBrand) {
-    this.searchCarService.postOfListCarBrandsFipe(idBrand).subscribe(
+  getBrands() {
+    this.searchCarService.postOfListCarBrandsFipe().subscribe(
       response => {
         this.dataFipeBrand = response;
 
@@ -81,10 +86,23 @@ export class SearchCarComponent implements OnInit {
     );
   }
 
+  getModel(idBrand) {
+    this.searchCarService.postOfListCarModelsFipe(idBrand).subscribe(
+      response => {
+        this.dataModel = response.modelos;
+
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
+  
+
   buildForm() {
     this.seachCarForm = this.formBuilder.group({
-      dateReference: [this.user.dateReference],
-      brand: [this.user.brand]
+     // dateReference: [this.user.dateReference],
+      brand: [this.user.brand],
+      model: [this.user.model]
     });
   }
 

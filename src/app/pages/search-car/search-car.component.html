@@ -2,7 +2,7 @@
 <div class="form">
   <div class=" flex">
     <form [formGroup]="seachCarForm" novalidate>
-      <mz-select-container *ngIf="dataFipeReference !== null">
+      <!-- <mz-select-container *ngIf="dataFipeReference !== null">
         <select mz-select 
           id="dateReference" 
           label="Selecione mes e ano de Referência"
@@ -12,20 +12,34 @@
           (ngModelChange)="selectAllTypeEventsFipe($event, 0)">
           <option *ngFor="let fipeValues of dataFipeReference"  [ngValue]="fipeValues.Codigo" class="left circle">
             {{ fipeValues.Mes }}</option>
-        </select>
+        </select> -->
         <!-- <span *ngIf="error !== null" class="invalid" [attr.data-error]="error">{{ error }}</span> -->
-      </mz-select-container>
+      <!-- </mz-select-container> -->
 
-      <mz-select-container *ngIf="dataFipeReference !== null">
+      <mz-select-container >
         <select mz-select 
-          id="dateReference" 
+          id="brand" 
           label="Selecione a Marca"
           placeholder="Selecionar"
           formControlName="brand"
           [(ngModel)]="carBrand"
+          (ngModelChange)="selectAllTypeEventsFipe($event, 0)">
+          <option *ngFor="let fipeBrand of dataFipeBrand"  [ngValue]="fipeBrand.codigo" class="left circle">
+            {{ fipeBrand.nome }}</option>
+        </select>
+        <!-- <span *ngIf="error !== null" class="invalid" [attr.data-error]="error">{{ error }}</span> -->
+      </mz-select-container>
+
+      <mz-select-container >
+        <select mz-select 
+          id="model" 
+          label="Selecione o modelo"
+          placeholder="Selecionar"
+          formControlName="model"
+          [(ngModel)]="model"
           (ngModelChange)="selectAllTypeEventsFipe($event, 1)">
-          <option *ngFor="let fipeBrand of dataFipeBrand"  [ngValue]="fipeBrand.value" class="left circle">
-            {{ fipeBrand.Label }}</option>
+          <option *ngFor="let model of dataModel"  [ngValue]="model.codigo" class="left circle">
+            {{ model.nome }}</option>
         </select>
         <!-- <span *ngIf="error !== null" class="invalid" [attr.data-error]="error">{{ error }}</span> -->
       </mz-select-container>

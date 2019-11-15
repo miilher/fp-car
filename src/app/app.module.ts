@@ -31,7 +31,7 @@ import { MzSelectModule } from 'ngx-materialize';
     CUSTOM_ELEMENTS_SCHEMA
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: HttpSetHeaders, multi: true }
+    // { provide: HTTP_INTERCEPTORS, useClass: HttpSetHeaders, multi: true }
   ],
   bootstrap: [AppComponent]
 })

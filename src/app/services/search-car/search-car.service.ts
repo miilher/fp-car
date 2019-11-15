@@ -11,7 +11,7 @@ import { CarYearModelRequestFipe } from '../../interface/iCarYearModelReturn';
 
 export class SearchCarService {
 
-  baseURLFipe = 'https://veiculos.fipe.org.br/api/veiculos/';
+  baseURLFipe = 'https://parallelum.com.br/fipe/api/v1/carros/';
 
   constructor(private http: HttpClient) { }
 
@@ -19,12 +19,12 @@ export class SearchCarService {
     return this.http.post<CarDateReferenceFipeReturn>(this.baseURLFipe + 'ConsultarTabelaDeReferencia', null);
   }
 
-  postOfListCarBrandsFipe(dataOfCarBrands) {
-    return this.http.post<CarBrandReturnFipe>(this.baseURLFipe + 'ConsultarMarcas', dataOfCarBrands);
+  postOfListCarBrandsFipe() {
+    return this.http.get<any>(this.baseURLFipe + 'marcas');
   }
 
   postOfListCarModelsFipe(dataOfCarModel) {
-    return this.http.post<CarModelReturnFipe>(this.baseURLFipe + 'ConsultarModelos', dataOfCarModel);
+    return this.http.get<any>(this.baseURLFipe + 'marcas/' + dataOfCarModel + '/modelos');
   }
 
   postOfListYearModelFipe(dataOfCarYearModel) {
