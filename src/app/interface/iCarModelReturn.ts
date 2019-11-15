@@ -5,13 +5,15 @@ export interface CarOnlyModelReturnFipe {
 
 
 export interface CarModelReturnFipe {
+    modelos: {
+        nome: string;
+        codigo: number;
+    };
     anos: {
         nome: string;
         codigo: string;
     };
-    modelos: {
-        CarOnlyModelReturnFipe: any
-    };
+
 }
 
 

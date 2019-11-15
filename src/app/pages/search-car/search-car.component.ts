@@ -56,10 +56,12 @@ export class SearchCarComponent implements OnInit {
       switch (typeSearch) {
         case TypeSearch.brand: {
           this.getModel(event.value);
+          this.allDataCar = null;
           break;
         }
         case TypeSearch.model: {
           this.getYear(this.carBrand, event.value);
+          this.allDataCar = null;
           break;
         }
         case TypeSearch.year: {
@@ -115,6 +117,7 @@ export class SearchCarComponent implements OnInit {
     this.loader = true;
     this.searchCarService.getCarYearFipe(idBrand, idModel).subscribe(
       response => {
+        this.year = '';
         this.dataYear = response;
         this.loader = false;
 

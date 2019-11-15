@@ -8,6 +8,11 @@
 app-detail-car{
     width: 35%;;
 }
+app-loader{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
 
 @media (max-width: 800px) { 
     .form{
