@@ -1,11 +1,12 @@
 {
   "name": "fp-car",
   "short_name": "fp-car",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "theme_color": "#135058",
+  "background_color": "#135058",
   "display": "standalone",
   "scope": "/",
-  "start_url": "/",
+  "start_url": "https://fp-car.herokuapp.com/",
+  "lang" : "Portuguese",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",
